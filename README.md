@@ -15,7 +15,7 @@
 -- Gradle build tool
 
 
-### To run execute test cases fun the following command in the terminal
+#### To run execute test cases fun the following command in the terminal inside the project folder
 ```console
-foo@bar:~/TravelDesignTask ./gradlew test 
+./gradlew test 
 ```
