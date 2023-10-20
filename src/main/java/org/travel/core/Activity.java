@@ -1,5 +1,7 @@
 package org.travel.core;
 
+import org.travel.exceptions.DestinationNotFound;
+
 public class Activity {
     private final String name;
     private final String description;
@@ -42,12 +44,12 @@ public class Activity {
         return capacity - destination.getSignedUpPassengersCount(this);
     }
 
-    public double getDiscountedCost() {
+    public double getDiscountedCost() throws DestinationNotFound {
         if (destination != null) {
                 return cost * 0.9;
         }
         else{
-            throw new NullPointerException("Destination is Null");
+            throw new DestinationNotFound("Destination is Null");
         }
     }
 

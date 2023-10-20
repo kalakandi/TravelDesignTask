@@ -3,7 +3,6 @@ package org.travel.core;
 import org.travel.exceptions.TravelPackageFullException;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.List;
 
 public class TravelPackage {
@@ -33,15 +32,15 @@ public class TravelPackage {
 
     public void printItinerary() {
         System.out.println("Travel Package: " + name);
-        for (Destination destination : destinations) {
-            System.out.println("Destination: " + destination.getName());
-            for (Activity activity : destination.getActivities()) {
-                System.out.println("Activity: " + activity.getName());
-                System.out.println("Description: " + activity.getDescription());
-                System.out.println("Cost: " + activity.getCost());
-                System.out.println("Capacity: " + activity.getCapacity());
-            }
-        }
+        destinations.stream()
+                .flatMap(destination -> destination.getActivities().stream())
+                .forEach(activity -> {
+                    System.out.println("Destination: " + activity.getDestination().getName());
+                    System.out.println("Activity: " + activity.getName());
+                    System.out.println("Description: " + activity.getDescription());
+                    System.out.println("Cost: " + activity.getCost());
+                    System.out.println("Capacity: " + activity.getCapacity());
+                });
     }
 
     public void printPassengerList() {
@@ -56,17 +55,13 @@ public class TravelPackage {
 
     public void printAvailableActivities() {
         System.out.println("Available Activities:");
-        for (Destination destination : destinations) {
-            for (Activity activity : destination.getActivities()) {
-                if (activity.getAvailableSpace() > 0) {
+        destinations.stream()
+                .flatMap(destination -> destination.getActivities().stream())
+                .filter(activity -> activity.getAvailableSpace() > 0)
+                .forEach(activity -> {
                     System.out.println("Activity: " + activity.getName());
                     System.out.println("Available Space: " + activity.getAvailableSpace());
-                }
-            }
-        }
+                });
     }
 
-    public List<Destination> getDestinations() {
-        return destinations;
-    }
 }

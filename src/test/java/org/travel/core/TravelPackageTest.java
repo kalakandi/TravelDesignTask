@@ -4,6 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.travel.exceptions.ActivityCapacityIsFullException;
+import org.travel.exceptions.DestinationNotFound;
 import org.travel.exceptions.InsufficientBalanceException;
 import org.travel.exceptions.TravelPackageFullException;
 
@@ -131,7 +132,7 @@ class TravelPackageTest {
     }
 
     @Test
-    void testSignUpForActivityWithSufficientBalance() throws InsufficientBalanceException, ActivityCapacityIsFullException {
+    void testSignUpForActivityWithSufficientBalance() throws InsufficientBalanceException, ActivityCapacityIsFullException, DestinationNotFound {
         Destination destination = new Destination("Mountain Retreat");
         Activity activity = new Activity("Hiking", "Enjoy hiking in the mountains", 50.0, 10);
         destination.addActivity(activity);
@@ -143,7 +144,7 @@ class TravelPackageTest {
     }
 
     @Test
-    public void testSignUpForActivityWithStandardPassenger() throws ActivityCapacityIsFullException, InsufficientBalanceException {
+    public void testSignUpForActivityWithStandardPassenger() throws ActivityCapacityIsFullException, InsufficientBalanceException, DestinationNotFound {
         Destination destination = new Destination("Mountain Retreat");
         Activity activity = new Activity("Hiking", "Enjoy hiking in the mountains", 50.0, 10);
         destination.addActivity(activity);
@@ -155,7 +156,7 @@ class TravelPackageTest {
     }
 
     @Test
-    public void testSignUpForActivityWithGoldPassenger() throws ActivityCapacityIsFullException, InsufficientBalanceException {
+    public void testSignUpForActivityWithGoldPassenger() throws ActivityCapacityIsFullException, InsufficientBalanceException, DestinationNotFound {
         Destination destination = new Destination("Mountain Retreat");
         Activity activity = new Activity("Hiking", "Enjoy hiking in the mountains", 50.0, 10);
         destination.addActivity(activity);
@@ -167,7 +168,7 @@ class TravelPackageTest {
     }
 
     @Test
-    public void testSignUpForActivityWithPremiumPassenger() throws InsufficientBalanceException, ActivityCapacityIsFullException {
+    public void testSignUpForActivityWithPremiumPassenger() throws InsufficientBalanceException, ActivityCapacityIsFullException, DestinationNotFound {
         Destination destination = new Destination("Mountain Retreat");
         Activity activity = new Activity("Hiking", "Enjoy hiking in the mountains", 50.0, 10);
         destination.addActivity(activity);

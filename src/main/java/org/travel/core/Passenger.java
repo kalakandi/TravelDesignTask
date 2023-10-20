@@ -1,6 +1,7 @@
 package org.travel.core;
 
 import org.travel.exceptions.ActivityCapacityIsFullException;
+import org.travel.exceptions.DestinationNotFound;
 import org.travel.exceptions.InsufficientBalanceException;
 
 import java.util.ArrayList;
@@ -21,39 +22,43 @@ public class Passenger {
         this.activityList = new ArrayList<>();
     }
 
-    public void signUpForActivity(Activity activity) throws InsufficientBalanceException, ActivityCapacityIsFullException {
-        if(activity.getCapacity() <= 0){
+    public void signUpForActivity(Activity activity) throws InsufficientBalanceException, ActivityCapacityIsFullException, DestinationNotFound {
+        // Check if the activity is already full.
+        if (activity.getCapacity() <= 0) {
             throw new ActivityCapacityIsFullException("The activity " + activity.getName() + "is already full");
         }
-        if (type == PassengerType.STANDARD) {
-            if (balance >= activity.getCost()) {
-                activityList.add(activity);
-                balance -= activity.getCost();
-            } else {
-                throw new InsufficientBalanceException("Not enough balance to sign up for the activity: " + activity.getName());
-            }
-        } else if (type == PassengerType.GOLD) {
-            if (balance >= activity.getDiscountedCost()) {
-                activityList.add(activity);
-                balance -= activity.getDiscountedCost();
-            } else {
-                throw new InsufficientBalanceException("Not enough balance to sign up for the activity: " + activity.getName());
-            }
-        } else if (type == PassengerType.PREMIUM) {
-            activityList.add(activity);
+
+        // Sign up the passenger for the activity based on their type.
+        switch (type) {
+            case STANDARD -> signUpStandardPassenger(activity);
+            case GOLD -> signUpGoldPassenger(activity);
+            case PREMIUM -> signUpPremiumPassenger(activity);
+            default -> throw new IllegalArgumentException("Unknown passenger type: " + type);
         }
     }
 
-    public void printDetails() {
-        System.out.println("Name: " + name);
-        System.out.println("Number: " + number);
-        System.out.println("Balance: " + balance);
-        for (Activity activity : activityList) {
-            System.out.println("Activity: " + activity.getName());
-            System.out.println("Destination: " + activity.getDestination().getName());
-            System.out.println("Price Paid: " + (activity.getCost() - activity.getDiscountedCost()));
+    private void signUpStandardPassenger(Activity activity) throws InsufficientBalanceException {
+        if (balance < activity.getCost()) {
+            throw new InsufficientBalanceException("Not enough balance to sign up for the activity: " + activity.getName());
+        }
+
+        activityList.add(activity);
+        balance -= activity.getCost();
+    }
+
+    private void signUpGoldPassenger(Activity activity) throws InsufficientBalanceException, DestinationNotFound {
+        if (balance >= activity.getDiscountedCost()) {
+            activityList.add(activity);
+            balance -= activity.getDiscountedCost();
+        } else {
+            throw new InsufficientBalanceException("Not enough balance to sign up for the activity: " + activity.getName());
         }
     }
+
+    private void signUpPremiumPassenger(Activity activity) {
+        activityList.add(activity);
+    }
+
     public String getName() {
         return name;
     }
