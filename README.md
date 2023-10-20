@@ -8,3 +8,14 @@
 
 
 ![LLD](https://github.com/kalakandi/TravelDesignTask/assets/42131834/f578ee74-bf3a-416b-80cd-f46e6f50c670)
+
+### Prerequisites
+-- Java 17
+<br>
+-- Gradle build tool
+
+
+### To run execute test cases fun the following command in the terminal
+```console
+foo@bar:~/TravelDesignTask ./gradlew test 
+```
